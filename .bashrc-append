@@ -1,0 +1,14 @@
+# Load aliases
+if [ -f .bash_aliases ]; then
+    . .bash_aliases
+fi
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=10000
+HISTFILESIZE=20000
+
+# show timestamp with history, because more info is better.
+HISTTIMEFORMAT="%Y/%m/%d %T "
+
+# Custom Prompt:
+export PS1="\[\e[1m\]\`if [ \$? -eq 0 ]; then echo \[\e[32m\]\(\: ; else echo \[\e[31m\]\:\(; fi\`\[\e[0m\]\u\[\e[1m\]@\[\e[0m\]\H\[\e[1m\])-(\[\e[0;0m\]\w\[\e[1m\])\n(\[\e[0;0m\]\!\[\e[0;1m\])\[\e[0m\]$ "

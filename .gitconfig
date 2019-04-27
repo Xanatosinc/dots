@@ -1,0 +1,9 @@
+[alias]
+    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    s = status
+
+[color]
+    branch = auto
+    diff = auto
+    interactive = auto
+    status = auto
