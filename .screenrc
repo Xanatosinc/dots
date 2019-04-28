@@ -1,0 +1,44 @@
+# Send extra data to console so that you can use local console's
+# scroll-back features
+termcapinfo xterm ti@:te@
+term xterm
+
+#to allow us to send C-a C-a to the terminal
+#escape ^A^A
+escape ^@@
+bind o other
+
+hardstatus on
+altscreen on
+# fancy buttom line tells information
+hardstatus alwayslastline
+# Make sure programs are still running if we leave
+autodetach on
+
+# Colored status line on the bottom of the screen
+sorendition 04 43
+
+# Remove startup message and make status messages shorter timeout
+startup_message off
+msgwait 1
+
+# Increase scrollback buffer from 100 lines
+defscrollback 4096
+#termcapinfo xterm* ti@:te@
+
+# Remove real bell sound and replace with virtual bell instead
+vbell on
+
+# If a window goes unresponsive, don't block the whole session waiting for it.
+nonblock on
+multiuser on
+#
+#hardstatus alwayslastline
+#hardstatus string "%= %3n %t%? [%h]%? %="
+caption always
+caption string "%= %-w%L>%{= BW} %n*%t%{-}%52<%+w %L="
+shelltitle "$ |bash"
+
+hardstatus string '%{=b C}[%m/%d %c] [ %{G}%H %{g}] %{= kg} [%{Y}%l%{G}]'
+
+setenv SSH_AUTH_SOCK $(cat ${HOME}/.ssh/ssh_auth_sock)
