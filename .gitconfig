@@ -1,5 +1,5 @@
 [alias]
-    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    lg = log --graph --decorate --pretty=oneline --abbrev-commit --all
     s = status
 
 [color]
