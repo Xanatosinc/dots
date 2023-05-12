@@ -22,3 +22,4 @@ au FileType html.twig setl sw=2 sts=2 et
 
 "F12 toggles line numbers
 nnoremap <F12> :set nu!<CR>
+set mouse=a
