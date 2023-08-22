@@ -1,0 +1,37 @@
+#!/usr/bin/bash
+# Perform code checking
+
+SUCCESS=0
+
+pad_print () {
+    pad_len=78
+    pad=$(printf '%*s' "$pad_len")
+    pad=${pad// /.}
+    left=${1}
+    right=${2}
+    printf '%s' "$left"
+    printf '%*.*s' 0 $(( pad_len - ${#left} - ${#right} )) "$pad"
+    printf '%s\n' "$right"
+}
+
+check_exit () {
+    cmd=${1}
+    echo "Running '${cmd}'..."
+    ${cmd}
+    res=$?
+    SUCCESS=$(expr ${SUCCESS} \| ${res})
+    state="Pass ✅"
+    if [ ${res} -ne 0 ]
+    then
+        state="Fail ❌"
+    fi
+    pad_print "\`${cmd}\`" "${state}"
+}
+
+check_exit "isort . --check"
+check_exit "black . --check"
+check_exit "flake8 --extend-exclude 'dist' ."
+check_exit "mypy --exclude build ."
+check_exit "pytest"
+
+exit ${SUCCESS}
