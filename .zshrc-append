@@ -1,6 +1,6 @@
 # Load aliases
-if [ -f .bash_aliases ]; then
-    . .bash_aliases
+if [ -f .zsh_aliases ]; then
+    . .zsh_aliases
 fi
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
