@@ -10,5 +10,48 @@ HISTFILESIZE=20000
 # show timestamp with history, because more info is better.
 HISTTIMEFORMAT="%Y/%m/%d %T "
 
-# Custom Prompt:
-export PS1="\[\e[1m\]\`if [ \$? -eq 0 ]; then echo \[\e[32m\]\(\: ; else echo \[\e[31m\]\:\(; fi\`\[\e[0m\]\u\[\e[1m\]@\[\e[0m\]\H\[\e[1m\])-(\[\e[0;0m\]\w\[\e[1m\])\n(\[\e[0;0m\]\!\[\e[0;1m\])\[\e[0m\]$ "
+## Custom Prompt
+# Set up vcs info
+autoload -Uz vcs_info
+zstyle ':vcs_info:git*' enable git svn
+zstyle ':vcs_info:git*' formats "%F{magenta}(%b)%f"
+zstyle ':vcs_info:git*' actionformats "%F{yellow}(%b|%a)%f"
+zstyle ':vcs_info:git*' check-for-changes true
+zstyle ':vcs_info:git*' stagedstr 'S'
+zstyle ':vcs_info:git*' unstagedstr 'U'
+
+# Hook: color branch by dirty/staged state
+zstyle ':vcs_info:git*+set-message:*' hooks git-status-color
+
+function +vi-git-status-color() {
+    local reset="%F{magenta}"
+    local clean="%F{green}"
+    local dirty="%F{red}"
+    local staged="%F{yellow}"
+
+    local color
+    if [[ -n ${hook_com[staged]} && -n ${hook_com[unstaged]} ]]; then
+        color=$dirty
+    elif [[ -n ${hook_com[staged]} ]]; then
+        color=$staged
+    elif [[ -n ${hook_com[unstaged]} ]]; then
+        color=$dirty
+    else
+        color=$clean
+    fi
+
+    hook_com[branch]="${color}${hook_com[branch]}${reset}"
+}
+
+precmd() {
+    vcs_info
+}
+
+local user_host='%F{214}%n%F{13}@%F{135}%m%f'
+local dir='%F{105}%~%f'
+local git="${vcs_info_msg_0_}"
+local suffix='%#'
+
+setopt prompt_subst
+
+prompt='${user_host} ${dir} ${git} ${suffix} '
